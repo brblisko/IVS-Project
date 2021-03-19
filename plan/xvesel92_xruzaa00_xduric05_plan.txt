@@ -1,0 +1,32 @@
+- stanovené termíny,
+	- kazdy tyzden piatok/sobota meeting
+	- 13.3. vytvorenie repozitaru
+	- 31.3. matematicka kniznica, zaklad GUI a programu, Makefile
+	- 10.4. (od)instalator
+	- 15.4. mockup, kompletne GUI a program
+	- 18.4. profiling
+	- 20.4. uzivatelska dokumentacia/doxygen
+	- 22.4. kompletizacia projektu a pripavovanie odovzdania (doplnanie screenshotov do repa)
+	- 27.4. finalne odovzdanie
+
+- přidělení úkolů na projektu jednotlivým řešitelům
+	- vytvorenie repozitaru -> xvesel92 (kontrola ostatni)
+	- matematicka kniznica testy -> xduric05 (kontrola xruzaa00)
+	- matematicka kniznica -> xduric05 (kontrola xruzaa00)
+	- program GUI -> xruzaa00 (kontrola xvesel92)
+	- program -> xruzaa00 (kontrola xduric05)
+	- (od)instalator -> xvesel92 (kontrola xruzaa00)
+	- uzivatelska dokumentacia -> xvesel92/xruzaa00/xduric05 (docasne)
+	- doxygen -> vsetci
+	- Makefile -> xvesel92 (kontrola xduric05)
+	- mockup -> vsetci
+	- profiling -> xruzaa00 (kontrola xduric05)	
+
+- Komunikačné kanály
+	- MS Teams (textova komunikacia ohladom problemov v projekte)
+	- Discord (voice/video, zdielanie obrazovky)
+	- Email (oficialne vyhlasenia)
+
+- Zvolený systém pro správu verzí a hosting
+	- https://github.com/
+	- vyucujúci/cviciaci budu moct nahliadnuť pomocou uctu "ivs.kontrola@gmail.com"
