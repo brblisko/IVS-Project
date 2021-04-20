@@ -28,7 +28,7 @@ clean:
 	rm -rf __pycache__/ ../doc/ ../../xvesel92_xruzaa00_xduric05/
 
 test:
-	pytest mathlib_TTT.py
+	pytest
 
 profile:
 #TODO
