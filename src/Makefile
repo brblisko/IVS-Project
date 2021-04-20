@@ -25,7 +25,7 @@ doc:
 
 #deletes files that should not be turned in 
 clean: 
-	rm -rf __pycache__/ ../doc/ ../../xvesel92_xruzaa00_xduric05/
+	rm -rf __pycache__/ ../doc/ ../../xvesel92_xruzaa00_xduric05/ .pytest_cache/
 
 test:
 	pytest
