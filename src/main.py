@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 Copyright (C) 2021
 
@@ -19,23 +20,131 @@ import sys
 
 from PyQt5.QtCore import QObject, QUrl
 from PyQt5.QtWidgets import QApplication, QMessageBox
-
 from PyQt5.QtQml import QQmlApplicationEngine
+from PyQt5.QtCore import Qt, qDebug, qFatal, QEvent, pyqtSignal, pyqtProperty
 
-from PyQt5.QtCore import qDebug, qFatal
-
+import re
 from resources import *
 
+# from PyQt5.QtGui import QKeyEvent
+# from PyQt5.QtQuick import *
+# from PyQt5.QtCore import *
+# from PyQt5.QtQuickWidgets import QQuickWidget
 
-def init(window):
-    window.show()
+
+class Brain(QObject):
+    """! Object for handling application logic
+    """
+
+    signal = pyqtSignal()
+
+    def __init__(self):
+        ## Class constructor
+        super().__init__()        
+        self._textLower = "0"
+        self._textUpper = ""
+        self.digits = "0123456789"
+        self.keys = "+-/*"
+
+    def setTextLower(self, text):
+        """! Setter for textLower, called from QML
+            @param text  string
+        """
+        self._textLower = text
+
+    @pyqtProperty(str, notify=signal, fset=setTextLower)
+    def textLower(self):
+        """! Getter for textLower, called from QML """
+        return self._textLower
+
+    def setTextUpper(self, text):
+        """! Setter for textUpper, called from QML
+            @param text  string
+        """
+        self._textUpper = text
+
+    @pyqtProperty(str, notify=signal, fset=setTextUpper)
+    def textUpper(self):
+        """! Getter for textUpper, called from QML """
+        return self._textUpper
+
+    def processKey(self, str):
+        """!
+            @param str  string
+        """
+        if str in self.digits:
+            if self._textLower == "0":
+                self._textLower = "" #Remove leading 0
+            self._textLower += str
+            self.signal.emit() #Update GUI
+
+    def onKeyBackspace(self):
+        self._textLower = self._textLower[:-1] #Removes last char
+        if self._textLower == "":
+            self._textLower = "0"
+        self.signal.emit() #Update GUI
+
+    def onKeyEvent(self, key, str):
+        qDebug('key pressed ' + str + ', ' + self._textLower)
+        #Filter for textInput item
+        if key in [Qt.Key_Left, Qt.Key_Right, Qt.Key_Delete]:
+            return False
+
+        if key == Qt.Key_Backspace:
+            self.onKeyBackspace()
+        elif key == Qt.Key_Return:
+            qDebug('Enter pressed, ' + self._textLower)
+        else:
+            self.processKey(str)
+        return True
+
+    def buttonClicked(self, key): #GUI button events
+        qDebug("Button click: " + key)
+        self.processKey(key)
+
+    def eventFilter(self,  obj,  event):
+        if event.type() == QEvent.KeyPress: #Keyboard events
+            return self.onKeyEvent(event.key(), event.text())
+        return False
+
+
+def initQuickItem(obj, window, bigbrain):
+    """! Initializes GUI item
+        @param obj  reference to QQuickItem
+        @param window  reference to GUI window
+        @param bigbrain  reference to logic object
+    """
+    name = obj.objectName()
+    if name.startswith('PButton'):
+        regex = re.match("[^[]*{([^]]*)}", name) #Get substring in { }
+        if not regex:
+            return
+        id = regex.groups()[0]
+        if id in "0123456789,+-/*=":
+            obj.setProperty("text", id)
+            obj.clicked.connect(lambda id=id: bigbrain.buttonClicked(id))
+        elif id == "Backspace":
+            obj.clicked.connect(lambda: bigbrain.onKeyBackspace())
+
+
+def init(window, bigbrain):
+    """! App initialization
+        @param window  reference to GUI window
+        @param bigbrain  reference to logic object
+    """
+    window.installEventFilter(bigbrain)
+    list = window.findChildren(QObject)
+    for o in list:
+        initQuickItem(o, window, bigbrain)
     return True
 
 
 def main():
     app = QApplication(sys.argv)
+    bigbrain = Brain()
 
     engine = QQmlApplicationEngine()
+    engine.rootContext().setContextProperty("bigbrain", bigbrain)
     engine.load(QUrl("qrc:/res/main.qml"))
 
     if len(engine.rootObjects()) == 0:
@@ -43,9 +152,12 @@ def main():
         QMessageBox.critical(None, "Application error", "GUI Error occurred")
         return -1
 
-    if not init(engine.rootObjects()[0]):
+    win = engine.rootObjects()[0]
+    if not init(win, bigbrain):
+        qFatal("Init Error, shutting down")
         return -2
 
+    win.show()
     return app.exec_()
 
 

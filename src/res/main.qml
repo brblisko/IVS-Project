@@ -17,18 +17,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import QtQuick 2.5
 import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.5
+import QtQuick.Layouts 1.12
 import QtQuick.Controls.Styles 1.4
+import QtGraphicalEffects 1.0
 
 import "components"
+import "windowfunctions.js" as Logic
 
-ApplicationWindow {
+/// Main window
+ApplicationWindow {    
 
     id: root
     visible: true
 
     title: "YAC Calculator"
     color: "#EBEBEB"
+
+    onWidthChanged: Logic.onAdjustSize()
+    onHeightChanged: Logic.onAdjustSize()
 
     minimumWidth:  mainLayout.implicitWidth
     minimumHeight: mainLayout.implicitHeight //+ menuBar.implicitHeight
@@ -52,118 +58,84 @@ ApplicationWindow {
 
         columns: 1
 
-        TextInput {
-            text: "0"//sample text
+        Text {
+            id: textInputUpper
+            objectName: "textInputUpper"
 
-            font.pointSize: 30
+            text: bigbrain.textUpper
+            font.pointSize: 18
+
             horizontalAlignment: TextInput.AlignRight
             verticalAlignment:   TextInput.AlignVCenter
 
             Layout.fillWidth:  true;
             Layout.fillHeight: true;
+        }
 
+        TextMetrics {
+             id: metricsLower
+             text: bigbrain.textLower
+        }
+
+        TextInput {
+            id: textInput
+            objectName: "textInput"
+
+            text: bigbrain.textLower
+            font: metricsLower.font
+
+            onTextChanged: {
+                Logic.onAdjustSize()
+                bigbrain.textLower = text
+            }
+
+            focus: true
+
+            horizontalAlignment: TextInput.AlignRight
+            verticalAlignment:   TextInput.AlignVCenter
+
+            Layout.fillWidth:  true;
+            Layout.fillHeight: true;
         }
 
         //rowSpacing: 20
-
         GridLayout {
             Layout.fillWidth:  true;
-            Layout.fillHeight: true;
+            Layout.fillHeight: true;            
 
             columns: 5
-
-            CustomButton {
-                text: ""
-            }
-            CustomButton {
-                text: "CE"
-            }
-            CustomButton {
-                text: "C"
-            }
-            CustomButton {
-                text: "<-"
-            }
-            CustomButton {
-                text: "/"
-            }
-
-            CustomButton {
-                text: ""
-            }
-            CustomDigitButton {
-                text: "7"
-            }
-            CustomDigitButton {
-                text: "8"
-            }
-            CustomDigitButton {
-                text: "9"
-            }
-            CustomButton {
-                text: "*"
-            }
-
-            CustomButton {
-                text: ""
-            }
-            CustomDigitButton {
-                text: "4"
-            }
-            CustomDigitButton {
-                text: "5"
-            }
-            CustomDigitButton {
-                text: "6"
-            }
-            CustomButton {
-                text: "-"
-            }
-
-
-            CustomButton {
-                text: "n!"
-            }
-            CustomDigitButton {
-                text: "1"
-            }
-            CustomDigitButton {
-                text: "2"
-            }
-            CustomDigitButton {
-                text: "3"
-            }
-            CustomButton {
-                text: "+"
-            }
-
-            CustomButton {
-                text: ""
-            }
-            CustomButton {
-                text: ""
-            }
-            CustomDigitButton {
-                text: "0"
-            }
-            CustomButton {
-                text: "."
-            }
-
-            CustomButton {
-                text: "="
-            }
+            //row 0
+            CustomButton { text: ""; opacity: 0.2 }
+            CustomButton { text: "CE" }
+            CustomButton { text: "C"  }
+            CustomButton { objectName: "PButton{Backspace}"; text: "DEL" }
+            CustomButton { objectName: "PButton{/}"  }
+            //row 1
+            CustomButton { text: ""; opacity: 0.2 }
+            CustomDigitButton { objectName: "PButton{7}" }
+            CustomDigitButton { objectName: "PButton{8}" }
+            CustomDigitButton { objectName: "PButton{9}" }
+            CustomButton { objectName: "PButton{*}" }
+            //row 2
+            CustomButton { text: ""; opacity: 0.2 }
+            CustomDigitButton { objectName: "PButton{4}" }
+            CustomDigitButton { objectName: "PButton{5}" }
+            CustomDigitButton { objectName: "PButton{6}" }
+            CustomButton { objectName: "PButton{-}" }
+            //row 3
+            CustomButton { text: "n!"; opacity: 0.2 }
+            CustomDigitButton { objectName: "PButton{1}" }
+            CustomDigitButton { objectName: "PButton{2}" }
+            CustomDigitButton { objectName: "PButton{3}" }
+            CustomButton { objectName: "PButton{+}" }
+            //row 4
+            CustomButton { text: ""; opacity: 0.2 }
+            CustomButton { text: ""; opacity: 0.2 }
+            CustomDigitButton { objectName: "PButton{0}" }
+            CustomButton { objectName: "PButton{,}" }
+            CustomButton { objectName: "PButton{=}" }
         }
 
-    }
-
-    Component {
-        id: buttonStyle
-
-        ButtonStyle {
-
-        }
-
-    }
+    }    
 
 }
