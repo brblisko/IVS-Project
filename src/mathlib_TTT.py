@@ -25,7 +25,6 @@ class MathlibTTT:
     #
     # @return Sum of two numbers a and b
 
-    @staticmethod
     def add(a, b):
         return a + b
 
@@ -37,7 +36,6 @@ class MathlibTTT:
     #
     # @return Difference of two numbers a and b
 
-    @staticmethod
     def sub(a, b):
         return a - b
 
@@ -49,7 +47,6 @@ class MathlibTTT:
     #
     # @return Product of two numbers a and b
 
-    @staticmethod
     def mul(a, b):
         return a * b
 
@@ -62,14 +59,13 @@ class MathlibTTT:
     # @return Quotient of two numbers a and b
     # @exception Ma ERROR In case the second number is zero, function will throw error Ma ERROR
 
-    @staticmethod
     def div(a, b):
-        if !b:
+        if not b:
             raise ValueError('Dividing by zero')
         if a % b == 0:
             return a / b
-        else
-        return float(a)/b
+        else:
+            return float(a)/b
 
         ##
     # Method computes factorial of n
@@ -78,7 +74,6 @@ class MathlibTTT:
     # @exception Ma ERROR if the n parameter isn't an inteeger or is less then zero
     # @return factorial of number n
 
-    @staticmethod
     def fac(a):
         if a < 0 or type(a) != int or a > 990:
             raise ValueError(
@@ -97,11 +92,10 @@ class MathlibTTT:
     # @exception Ma ERROR if the exponent parameter isn't an inteeger or is less or equal to zero
     # @return base raised to the power
 
-    @staticmethod
     def pow(a, b):
         if type(b) != int:
             raise ValueError('Exponent needs to be an integer')
-        if !b:
+        if not b:
             return 1
         if b < 0:
             return round(1.0/a**(-b), 13)
@@ -117,7 +111,6 @@ class MathlibTTT:
     # is less then zero
     # @return square root of n
 
-    @staticmethod
     def root(a, b):
         if b <= 0 or a < 0:
             raise ValueError('Both numbers in square root need to be positive')
@@ -130,7 +123,6 @@ class MathlibTTT:
     # @exception Ma ERROR if the x parameter  is less or equal to zero
     # @return natural logarithm of x
 
-    @staticmethod
     def ln(a):
         if a <= 0:
             # print("Error - ln value has to be more than 0!")
