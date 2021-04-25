@@ -1,4 +1,3 @@
-# test_capitalize.py
 
 import pytest
 from mathlib_TTT import MathlibTTT
@@ -72,6 +71,32 @@ def test_ln():
         MathlibTTT.ln(-5)
 
 
-# def test_sort():
-#    x = "10+5*6"
-#    assert MathlibTTT.sort(x) == 40
+ def test_parse():
+    x = "5+5" 
+    assert MathlibTTT.parse(x) == 10.0
+    x = "5-5" 
+    assert MathlibTTT.parse(x) == 0.0
+    x = "5.5+5.6" 
+    assert MathlibTTT.parse(x) == 11.1
+    x = "5.4-5.3" 
+    assert MathlibTTT.parse(x) == 0.1
+    x = "5+5+5-5+5.5+5.6+5.4-5.3" 
+    assert MathlibTTT.parse(x) == 21.2
+    x = "10+5*6"
+    assert MathlibTTT.parse(x) == 40.0
+    x = "10-5*6"
+    assert MathlibTTT.parse(x) == -20.0
+    x = "10-5*6+10"
+    assert MathlibTTT.parse(x) == -10.0
+    x = "10-1.5*2"
+    assert MathlibTTT.parse(x) == 7.0
+    x = "10+5*6-10-5*6+10-5*6+10+10-1.5*2"
+    assert MathlibTTT.parse(x) == -3.0
+    x = "2^3"
+    assert MathlibTTT.parse(x) == 8.0
+    x = "root(8,3)"
+    assert MathlibTTT.parse(x) == 2.0
+    x = "ln(1)"
+    assert MathlibTTT.parse(x) == 0.0
+    x = "2^3+root(8,3)+ln(1)"
+    assert MathlibTTT.parse(x) == 10.0

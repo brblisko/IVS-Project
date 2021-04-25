@@ -120,7 +120,7 @@ class MathlibTTT:
     @staticmethod
     def root(a, b):
         if b <= 0 or a < 0:
-            raise ValueError('Both numbers in square root need to be positive')
+            raise ValueError('Both numbers in root need to be positive')
         return round(a ** (1 / float(b)), 13)
 
     ##
