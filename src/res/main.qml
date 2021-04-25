@@ -95,32 +95,32 @@ ApplicationWindow {
 
             columns: 5
             //row 0
-            CustomButton { text: ""; opacity: 0.2 }
-            CustomButton { text: "CE" }
-            CustomButton { text: "C"  }
+            CustomButton { objectName: "PButton{ln}"; text: "ln"; }
+            CustomButton { objectName: "PButton{CE}"; text: "CE" }
+            CustomButton { objectName: "PButton{C}"; text: "C"  }
             CustomButton { objectName: "PButton{Backspace}"; text: "DEL" }
             CustomButton { objectName: "PButton{/}"  }
             //row 1
-            CustomButton { text: ""; opacity: 0.2 }
+            CustomButton { objectName: "PButton{root}"; text: "root"; }
             CustomDigitButton { objectName: "PButton{7}" }
             CustomDigitButton { objectName: "PButton{8}" }
             CustomDigitButton { objectName: "PButton{9}" }
             CustomButton { objectName: "PButton{*}" }
             //row 2
-            CustomButton { text: ""; opacity: 0.2 }
+            CustomButton { objectName: "PButton{pow}"; text: "pow"; }
             CustomDigitButton { objectName: "PButton{4}" }
             CustomDigitButton { objectName: "PButton{5}" }
             CustomDigitButton { objectName: "PButton{6}" }
             CustomButton { objectName: "PButton{-}" }
             //row 3
-            CustomButton { text: "n!"; opacity: 0.2 }
+            CustomButton { objectName: "PButton{factorial}"; text: "n!"; }
             CustomDigitButton { objectName: "PButton{1}" }
             CustomDigitButton { objectName: "PButton{2}" }
             CustomDigitButton { objectName: "PButton{3}" }
             CustomButton { objectName: "PButton{+}" }
             //row 4
-            CustomButton { text: ""; opacity: 0.2 }
-            CustomButton { text: ""; opacity: 0.2 }
+            CustomButton { objectName: "PButton{parentLeft}"; text: "("; }
+            CustomButton { objectName: "PButton{parentRight}"; text: ")"; }
             CustomDigitButton { objectName: "PButton{0}" }
             CustomButton { objectName: "PButton{,}" }
             CustomButton { objectName: "PButton{=}" }
