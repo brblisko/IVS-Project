@@ -38,34 +38,37 @@ class Brain(QObject):
 
     signal = pyqtSignal()
 
+    """ Class constructor """
+
     def __init__(self):
-        ## Class constructor
-        super().__init__()        
+        super().__init__()
         self._textLower = "0"
         self._textUpper = ""
         self.digits = "0123456789"
         self.keys = "+-/*"
 
+    """! Setter for textLower, called from QML
+        @param text  string
+    """
+
     def setTextLower(self, text):
-        """! Setter for textLower, called from QML
-            @param text  string
-        """
         self._textLower = text
 
+    """! Getter for textLower, called from QML """
     @pyqtProperty(str, notify=signal, fset=setTextLower)
     def textLower(self):
-        """! Getter for textLower, called from QML """
         return self._textLower
 
+    """! Setter for textUpper, called from QML
+        @param text  string
+    """
+
     def setTextUpper(self, text):
-        """! Setter for textUpper, called from QML
-            @param text  string
-        """
         self._textUpper = text
 
+    """! Getter for textUpper, called from QML """
     @pyqtProperty(str, notify=signal, fset=setTextUpper)
     def textUpper(self):
-        """! Getter for textUpper, called from QML """
         return self._textUpper
 
     def processKey(self, str):
@@ -74,19 +77,19 @@ class Brain(QObject):
         """
         if str in self.digits:
             if self._textLower == "0":
-                self._textLower = "" #Remove leading 0
+                self._textLower = ""  # Remove leading 0
             self._textLower += str
-            self.signal.emit() #Update GUI
+            self.signal.emit()  # Update GUI
 
     def onKeyBackspace(self):
-        self._textLower = self._textLower[:-1] #Removes last char
+        self._textLower = self._textLower[:-1]  # Removes last char
         if self._textLower == "":
             self._textLower = "0"
-        self.signal.emit() #Update GUI
+        self.signal.emit()  # Update GUI
 
     def onKeyEvent(self, key, str):
         qDebug('key pressed ' + str + ', ' + self._textLower)
-        #Filter for textInput item
+        # Filter for textInput item
         if key in [Qt.Key_Left, Qt.Key_Right, Qt.Key_Delete]:
             return False
 
@@ -98,12 +101,12 @@ class Brain(QObject):
             self.processKey(str)
         return True
 
-    def buttonClicked(self, key): #GUI button events
+    def buttonClicked(self, key):  # GUI button events
         qDebug("Button click: " + key)
         self.processKey(key)
 
     def eventFilter(self,  obj,  event):
-        if event.type() == QEvent.KeyPress: #Keyboard events
+        if event.type() == QEvent.KeyPress:  # Keyboard events
             return self.onKeyEvent(event.key(), event.text())
         return False
 
@@ -116,7 +119,7 @@ def initQuickItem(obj, window, bigbrain):
     """
     name = obj.objectName()
     if name.startswith('PButton'):
-        regex = re.match("[^[]*{([^]]*)}", name) #Get substring in { }
+        regex = re.match("[^[]*{([^]]*)}", name)  # Get substring in { }
         if not regex:
             return
         id = regex.groups()[0]
@@ -127,16 +130,23 @@ def initQuickItem(obj, window, bigbrain):
             obj.clicked.connect(lambda: bigbrain.onKeyBackspace())
 
 
+"""! App initialization
+    @param window  reference to GUI window
+    @param bigbrain  reference to logic object
+"""
+
+
 def init(window, bigbrain):
-    """! App initialization
-        @param window  reference to GUI window
-        @param bigbrain  reference to logic object
-    """
     window.installEventFilter(bigbrain)
     list = window.findChildren(QObject)
     for o in list:
         initQuickItem(o, window, bigbrain)
     return True
+
+
+def shutdown(engine, brain):
+    del engine
+    del brain
 
 
 def main():
@@ -147,6 +157,7 @@ def main():
     engine.rootContext().setContextProperty("bigbrain", bigbrain)
     engine.load(QUrl("qrc:/res/main.qml"))
 
+    app.aboutToQuit.connect(lambda: shutdown(engine, bigbrain))
     if len(engine.rootObjects()) == 0:
         qFatal("GUI Error, shutting down")
         QMessageBox.critical(None, "Application error", "GUI Error occurred")

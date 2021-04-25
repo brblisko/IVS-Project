@@ -19,7 +19,7 @@ import QtQuick 2.5
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
+//import QtGraphicalEffects 1.0
 
 import "components"
 import "windowfunctions.js" as Logic
@@ -37,17 +37,7 @@ ApplicationWindow {
     onHeightChanged: Logic.onAdjustSize()
 
     minimumWidth:  mainLayout.implicitWidth
-    minimumHeight: mainLayout.implicitHeight //+ menuBar.implicitHeight
-    /* TBD
-    menuBar: MenuBar {
-        Menu {
-            title: "Menu"
-            MenuItem {
-                text: "Item1"
-            }
-        }
-    }
-    */
+    minimumHeight: mainLayout.implicitHeight
 
     GridLayout {
         id: mainLayout
