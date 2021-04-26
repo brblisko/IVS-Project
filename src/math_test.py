@@ -48,8 +48,6 @@ def test_pow():
     assert MathlibTTT.pow(2, 3) == 8
     assert MathlibTTT.pow(5, 2) == 25
     assert MathlibTTT.pow(2, 0) == 1
-    with pytest.raises(ValueError):
-        MathlibTTT.pow(2, 1.53)
 
 
 def test_root():
@@ -71,16 +69,22 @@ def test_ln():
         MathlibTTT.ln(-5)
 
 
- def test_parse():
-    x = "5+5" 
+def test_parse():
+    x = "5+5"
     assert MathlibTTT.parse(x) == 10.0
-    x = "5-5" 
+    x = "!5"
+    assert MathlibTTT.parse(x) == 120.0
+    x = "!5+!4"
+    assert MathlibTTT.parse(x) == 144.0
+    x = "!5*!4"
+    assert MathlibTTT.parse(x) == 2880.0
+    x = "5-5"
     assert MathlibTTT.parse(x) == 0.0
-    x = "5.5+5.6" 
+    x = "5.5+5.6"
     assert MathlibTTT.parse(x) == 11.1
-    x = "5.4-5.3" 
+    x = "5.4-5.3"
     assert MathlibTTT.parse(x) == 0.1
-    x = "5+5+5-5+5.5+5.6+5.4-5.3" 
+    x = "5+5+5-5+5.5+5.6+5.4-5.3"
     assert MathlibTTT.parse(x) == 21.2
     x = "10+5*6"
     assert MathlibTTT.parse(x) == 40.0
