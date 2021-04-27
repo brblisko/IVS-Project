@@ -213,8 +213,8 @@ class MathlibTTT:
             endpar = x.find(")")
             if endpar < 0:
                 raise ValueError('Incorect use of parentheses')
-            x = x.replace(x[startpar:endpar],
-                          MathlibTTT.parse(x[startpar:endpar]), 1)
+            x = x.replace(x[startpar:endpar+1],
+                          str(MathlibTTT.parse(x[startpar+1:endpar])), 1)
 
         if not x.find(")") == -1:
             raise ValueError('Incorect use of parentheses')
@@ -227,7 +227,7 @@ class MathlibTTT:
                  for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
 
             if bool(a) and bool(b):
-                a = a[len(a)-1]
+                a = abs(a[len(a)-1])
                 b = b[0]
                 if round(a) == a:
                     x = x.replace(str(a), str(int(a)))
@@ -247,7 +247,7 @@ class MathlibTTT:
             b = [float(b)
                  for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
             if bool(a) and bool(b):
-                a = a[len(a)-1]
+                a = abs(a[len(a)-1])
                 b = b[0]
                 if round(a) == a:
                     x = x.replace(str(a), str(int(a)))

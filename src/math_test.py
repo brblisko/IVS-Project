@@ -104,3 +104,7 @@ def test_parse():
     assert MathlibTTT.parse(x) == 0.0
     x = "2^3+root(8,3)+ln(1)"
     assert MathlibTTT.parse(x) == 10.0
+    x = "6-5*-7"
+    assert MathlibTTT.parse(x) == 41
+    x = "(6+6)/(5+5)"
+    assert MathlibTTT.parse(x) == 1.2
