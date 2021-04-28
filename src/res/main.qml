@@ -172,9 +172,9 @@ ApplicationWindow {
             CustomButton {
                 objectName: "PButton{=}";
                 bgcolor: "#189100";
+                tooltipText: "Calculates expression"
+                tooltipEnabled: true
             }
         }
-
-    }    
-
+    }
 }

@@ -24,6 +24,9 @@ import QtGraphicalEffects 1.0
 Button {
     id: button
     signal buttonClicked()
+    property bool mouseHovered: false
+    property bool tooltipEnabled: false
+    property string tooltipText: ""
 
     property var bgcolor: "#1D1D1D"
 
@@ -42,8 +45,22 @@ Button {
     }
 
     background: Loader {
-            source: effectsEnabled ? "CustomButtonBackgroundEffect.qml"
-                                   : "CustomButtonBackground.qml"
+        id: loader
+        source: effectsEnabled ? "CustomButtonBackgroundEffect.qml"
+                               : "CustomButtonBackground.qml"
+    }
+
+    ToolTip {
+           visible: mouseHovered
+           contentItem: Text{
+               color: "#FFF"
+               text: tooltipText
+           }
+           background: Rectangle {
+               border.color: "#44FFFFFF"
+               color: "#CC000000"
+           }
+           delay: 500
     }
 
     onClicked: buttonClicked()

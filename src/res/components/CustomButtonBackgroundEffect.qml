@@ -29,17 +29,22 @@ Rectangle {
      }
 
      MouseArea {
-         anchors.fill: parent
-         hoverEnabled: true
-         onMouseXChanged: {
+        id: mouseAreaRoot
+        anchors.fill: parent
+        hoverEnabled: true
+        onMouseXChanged: {
             rect.mousex = mouseX - width / 2;
-         }
-         onMouseYChanged: {
+        }
+        onMouseYChanged: {
             rect.mousey = mouseY - height / 2;
-         }
-         onClicked: {
+        }
+        onContainsMouseChanged: {
+            mouseHovered = containsMouse && tooltipEnabled
+        }
+        onClicked: {
             button.buttonClicked()
-         }
+            console.log('click')
+        }
 
      }
 
