@@ -20,9 +20,5 @@ import QtQuick 2.5
 import "."
 
 CustomButton {
-
-    palette {
-        button: "#88FBFBFB"
-    }
-
+    bgcolor: "#070707"
 }
