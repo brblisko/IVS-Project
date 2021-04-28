@@ -22,6 +22,8 @@ import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
 Button {
+    id: button
+    signal buttonClicked()
 
     property var bgcolor: "#1D1D1D"
 
@@ -39,9 +41,10 @@ Button {
         button: bgcolor
     }
 
-    background:
-        Loader {
+    background: Loader {
             source: effectsEnabled ? "CustomButtonBackgroundEffect.qml"
                                    : "CustomButtonBackground.qml"
-        }
+    }
+
+    onClicked: buttonClicked()
 }

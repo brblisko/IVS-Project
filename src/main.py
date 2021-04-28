@@ -23,7 +23,7 @@ from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtQml import QQmlApplicationEngine
 from PyQt5.QtCore import Qt, qDebug, qFatal, QEvent, pyqtSignal, pyqtProperty
 
-from mathlib_TTT import *
+from mathlib_TTT import MathlibTTT
 
 import re
 from resources import *
@@ -99,8 +99,8 @@ class Brain(QObject):
         self.signal.emit()  # Update GUI
 
 
-    def onKeyEvent(self, key, str):
-        qDebug('key pressed ' + str + ', ' + self._textLower)
+    def onKeyEvent(self, key, key_str):
+        qDebug('key pressed ' + key_str + ', ' + self._textLower)
         # Filter for textInput item
         if key in [Qt.Key_Left, Qt.Key_Right, Qt.Key_Delete]:
             return False
@@ -109,6 +109,12 @@ class Brain(QObject):
             self.onKeyBackspace()
         elif key == Qt.Key_Return:
             qDebug('Enter pressed, ' + self._textLower)
+            result = MathlibTTT.parse(self._textLower.replace(" ", ""))
+            result = str(result)
+            qDebug(result)
+            self._textUpper = self._textLower
+            self._textLower = result
+            self.signal.emit()  # Update GUI
         else:
             # self.processKey(str)
             return False
@@ -121,8 +127,8 @@ class Brain(QObject):
     ##
     # @brief Filter for keyboard events
     def eventFilter(self,  obj,  event):
-        # if event.type() == QEvent.KeyPress:
-            # return self.onKeyEvent(event.key(), event.text())
+        if event.type() == QEvent.KeyPress:
+            return self.onKeyEvent(event.key(), event.text())
         return False
 
 ##
@@ -140,16 +146,16 @@ def initQuickItem(obj, window, bigbrain):
             return
         id = regex.groups()[0]
         if id in "0123456789,+-/*=":
-            obj.setProperty("text", id)
-            obj.clicked.connect(lambda id=id: bigbrain.buttonClicked(id))
+            obj.setProperty("text", id)            
+            obj.buttonClicked.connect(lambda id=id: bigbrain.buttonClicked(id))
         elif id == "Backspace":
-            obj.clicked.connect(lambda: bigbrain.onKeyBackspace())
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyBackspace())
         elif id == "root":
-            obj.clicked.connect(lambda: bigbrain.onKeyRoot())
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyRoot())
         elif id == "parentLeft":
-            obj.clicked.connect(lambda: bigbrain.buttonClicked("("))
+            obj.buttonClicked.connect(lambda: bigbrain.buttonClicked("("))
         elif id == "parentRight":
-            obj.clicked.connect(lambda: bigbrain.buttonClicked(")"))
+            obj.buttonClicked.connect(lambda: bigbrain.buttonClicked(")"))
 ##
 #    @brief App initialization
 #    @param window  reference to GUI window

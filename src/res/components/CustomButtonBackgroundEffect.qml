@@ -10,8 +10,6 @@ border.width: hovered ? 3 : 0
 
 Rectangle {
 
-
-
      id: rect
      anchors.fill: parent
      opacity: hovered ? 0.5 : 0.0
@@ -39,6 +37,10 @@ Rectangle {
          onMouseYChanged: {
             rect.mousey = mouseY - height / 2;
          }
+         onClicked: {
+            button.buttonClicked()
+         }
+
      }
 
  }

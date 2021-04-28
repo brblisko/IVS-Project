@@ -155,7 +155,7 @@ ApplicationWindow {
             //row 2
             CustomButton      { objectName: "PButton{pow}"; text: "pow"; }
             CustomDigitButton { objectName: "PButton{4}" }
-            CustomDigitButton { objectName: "PButton{5}"; id: bt5}
+            CustomDigitButton { objectName: "PButton{5}" }
             CustomDigitButton { objectName: "PButton{6}" }
             CustomButton      { objectName: "PButton{-}" }
             //row 3
