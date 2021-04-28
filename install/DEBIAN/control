@@ -1,0 +1,6 @@
+Package: TTT-calc
+Version: 1.0
+Maintainer: TTT-team
+Architecture: all
+Description: Calculator by TTT team
+Depends: python3-pyqt5, python3-pyqt5.qtquick, qml-module-qtquick-controls, pyqt5-dev-tools, qtquickcontrols2-5-dev, qml-module-qtquick2, qml-module-qtquick-layouts, qml-module-qtquick-controls2
