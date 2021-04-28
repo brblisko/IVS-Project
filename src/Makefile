@@ -1,8 +1,12 @@
 #TTT Makefile
 
-.PHONY: all run pack prepack doc clean run test profile install
+.PHONY: all run pack prepack doc clean run test install init
 
 all: run
+
+init:
+	sudo apt install -y python3-pyqt5.qtquick qml-module-qtquick-controls pyqt5-dev-tools \
+		qtquickcontrols2-5-dev qml-module-qtquick2 qml-module-qtquick-layouts qml-module-qtquick-controls2
 
 #packs the project to be turned in
 pack: clean install doc prepack
@@ -29,9 +33,6 @@ clean:
 
 test:
 	pytest
-
-profile:
-#TODO
 
 install:
 	bash installing_script.sh
