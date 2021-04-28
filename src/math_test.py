@@ -72,11 +72,11 @@ def test_ln():
 def test_parse():
     x = "5+5"
     assert MathlibTTT.parse(x) == 10.0
-    x = "!5"
+    x = "5!"
     assert MathlibTTT.parse(x) == 120.0
-    x = "!5+!4"
+    x = "5!+4!"
     assert MathlibTTT.parse(x) == 144.0
-    x = "!5*!4"
+    x = "5!*4!"
     assert MathlibTTT.parse(x) == 2880.0
     x = "5-5"
     assert MathlibTTT.parse(x) == 0.0
@@ -108,3 +108,9 @@ def test_parse():
     assert MathlibTTT.parse(x) == 41
     x = "(6+6)/(5+5)"
     assert MathlibTTT.parse(x) == 1.2
+    x = "rt"
+    with pytest.raises(ValueError):
+        MathlibTTT.parse(x)
+    x = "41+rt6"
+    with pytest.raises(ValueError):
+        MathlibTTT.parse(x)

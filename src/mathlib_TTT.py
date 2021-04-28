@@ -4,14 +4,13 @@
 import re
 
 ##
-# @package TTTcalc
+# @package ttt-calc
 # MathlibTTT is a mathematical library for our calculator.
 #
-# This mathematical library consists of basic mathematical operations
-# such as sum, difference, multiplication or division, advanced mathematical
-# operations such as power, root, natural logarithm. This library also
-# includes some conversion functions such as convert_weight, convert_time
-# convert_degrees, convert_lenght
+# Library is made out of basic arithmetic functions such as add,
+# subtraction, multiplication, division, factorial, root, power and
+# natural logarithm of a number. It also consists of a parser which
+# converts string with math expressions into a result
 #
 
 ##
@@ -24,22 +23,22 @@ class MathlibTTT:
     ##
     # @brief Sum of two numbers
     #
-    # @param a First number to be added
-    # @param b Second number to be added
+    # @param a First number
+    # @param b Second number
     #
-    # @return Sum of two numbers a and b
+    # @return Sum of a and b
 
     @staticmethod
     def add(a, b):
         return a + b
 
     ##
-    # @brief Difference of two numbers
+    # @brief Subtraction of two numbers
     #
-    # @param a First number, minor
-    # @param b Second number, minority
+    # @param a Number from which is subtracted
+    # @param b Number which subtracts
     #
-    # @return Difference of two numbers a and b
+    # @return Difference of numbers a and b
 
     @staticmethod
     def sub(a, b):
@@ -48,8 +47,8 @@ class MathlibTTT:
     ##
     # @brief Product of two numbers
     #
-    # @param a First number to be multiplied
-    # @param b Second number to be multiplied
+    # @param a First number
+    # @param b Second number
     #
     # @return Product of two numbers a and b
 
@@ -60,11 +59,11 @@ class MathlibTTT:
     ##
     # @brief Quotient of two numbers
     #
-    # @param a First number, dividend
+    # @param a First number, to be divided
     # @param b Second number, divisor
     #
+    # @exception Error if b is zero
     # @return Quotient of two numbers a and b
-    # @exception Ma ERROR In case the second number is zero, function will throw error Ma ERROR
 
     @staticmethod
     def div(a, b):
@@ -76,11 +75,11 @@ class MathlibTTT:
             return float(a)/b
 
         ##
-    # Method computes factorial of n
+    # Method computes factorial of a
     #
-    # @param n number of which factorial is calculated
-    # @exception Ma ERROR if the n parameter isn't an inteeger or is less then zero
-    # @return factorial of number n
+    # @param a number of which factorial is calculated
+    # @exception Error if number a is not a positive integer or the result would be to great
+    # @return factorial of number a
 
     @staticmethod
     def fac(a):
@@ -96,10 +95,9 @@ class MathlibTTT:
     ##
     # Method calculates a base raised to a power
     #
-    # @param base base of the power
-    # @param exponent exponent determines how many times the base will be multiplied
-    # @exception Ma ERROR if the exponent parameter isn't an inteeger or is less or equal to zero
-    # @return base raised to the power
+    # @param a base of the power
+    # @param b exponent determines how many times the base will be multiplied
+    # @return a raised to the power of b
 
     @staticmethod
     def pow(a, b):
@@ -111,13 +109,12 @@ class MathlibTTT:
             return round(a**b, 13)
 
     ##
-    # Method calculates square root of n
+    # Method calculates b-th root of a
     #
-    # @param n the base for which the root will be calculated
-    # @param rvalue the exponent
-    # @exception Ma ERROR if the rvalue parameter is less or equal to zero or the n parameter
-    # is less then zero
-    # @return square root of n
+    # @param a the base for which the root will be calculated
+    # @param b exponent
+    # @exception Error if one or both of the numbers are negative
+    # @return b-th root of a
 
     @staticmethod
     def root(a, b):
@@ -126,11 +123,11 @@ class MathlibTTT:
         return round(a ** (1 / float(b)), 13)
 
     ##
-    # Method calculates natural logarithm of x
+    # Method calculates natural logarithm of a
     #
-    # @param x number of which natural logarithm will be calculate
-    # @exception Ma ERROR if the x parameter  is less or equal to zero
-    # @return natural logarithm of x
+    # @param a number of which natural logarithm will be calculate
+    # @exception Error when value is less or equall of zero
+    # @return natural logarithm of a
 
     @staticmethod
     def ln(a):
@@ -143,25 +140,22 @@ class MathlibTTT:
     # Method parses math expresions from string
     #
     # @param x string from which method parses math expresions
-    # @exception Ma ERROR if the x parameter  is less or equal to zero
+    # @exception Error when there is incorrect math syntax
     # @return result of math expresion
 
     @staticmethod
     def parse(x):
         while x.find("!") > -1:
-            start = x.find("!")
+            splitx = x.split("!", 1)
             a = [float(a)
-                 for a in re.findall(r'-?\d+\.?\d*', x[start:])]
+                 for a in re.findall(r'-?\d+\.?\d*', splitx[0])]
             if bool(a):
-                a = a[0]
+                a = a[len(a)-1]
                 if round(a) == a:
                     x = x.replace(str(a), str(int(a)), 1)
                     a = int(a)
-                    x = x.replace("!"+str(a),
-                                  str(MathlibTTT.fac(a)), 1)
-                else:
-                    raise ValueError(
-                        'Factorials must be positive integers or the result is too great')
+                x = x.replace(str(a)+"!",
+                              str(MathlibTTT.fac(a)), 1)
             else:
                 raise ValueError('Incorect use of pow()')
 
@@ -203,8 +197,12 @@ class MathlibTTT:
                 if round(b) == b:
                     x = x.replace(str(b), str(int(b)))
                     b = int(b)
-                x = x.replace(str(a)+"^"+str(b),
+                y = x.replace(str(a)+"^"+str(b),
                               str(MathlibTTT.pow(a, b)), 1)
+                if not y == x:
+                    x = y
+                else:
+                    raise ValueError('Error with the expression')
             else:
                 raise ValueError('Incorect use of pow()')
 
@@ -235,8 +233,12 @@ class MathlibTTT:
                 if round(b) == b:
                     x = x.replace(str(b), str(int(b)))
                     b = int(b)
-                x = x.replace(str(a)+"*"+str(b),
+                y = x.replace(str(a)+"*"+str(b),
                               str(MathlibTTT.mul(a, b)), 1)
+                if not y == x:
+                    x = y
+                else:
+                    raise ValueError('Error with the expression')
             else:
                 raise ValueError('Incorect use of multiplication')
 
@@ -255,8 +257,12 @@ class MathlibTTT:
                 if round(b) == b:
                     x = x.replace(str(b), str(int(b)))
                     b = int(b)
-                x = x.replace(str(a)+"/"+str(b),
+                y = x.replace(str(a)+"/"+str(b),
                               str(MathlibTTT.div(a, b)), 1)
+                if not y == x:
+                    x = y
+                else:
+                    raise ValueError('Error with the expression')
             else:
                 raise ValueError('Incorect use of division')
 
@@ -280,8 +286,12 @@ class MathlibTTT:
                     if round(b) == b:
                         x = x.replace(str(b), str(int(b)))
                         b = int(b)
-                    x = x.replace(str(a)+"+"+str(b),
+                    y = x.replace(str(a)+"+"+str(b),
                                   str(MathlibTTT.add(a, b)), 1)
+                    if not y == x:
+                        x = y
+                    else:
+                        raise ValueError('Error with the expression')
                 else:
                     raise ValueError('Incorect use of adding')
             elif min_index < x.find("+") or (min_index > -1 and x.find("+") == -1):
@@ -301,9 +311,16 @@ class MathlibTTT:
                     if round(b) == b:
                         x = x.replace(str(b), str(int(b)))
                         b = int(b)
-                    x = x.replace(str(a)+"-"+str(b),
+                    y = x.replace(str(a)+"-"+str(b),
                                   str(MathlibTTT.sub(a, b)), 1)
+                    if not y == x:
+                        x = y
+                    else:
+                        raise ValueError('Error with the expression')
                 else:
                     raise ValueError('Incorect use of subtraction')
 
-        return round(float(x), 3)
+        if float(x) or float(x) == 0:
+            return round(float(x), 3)
+        else:
+            raise ValueError('Wrong syntax of math function:' + x)
