@@ -18,8 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import QtQuick 2.5
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.5
+import QtQuick.Controls.Styles 1.4
+import QtGraphicalEffects 1.0
 
 Button {
+    id: button
+    signal buttonClicked()
+
+    property var bgcolor: "#1D1D1D"
 
     Layout.fillWidth: true;
     Layout.fillHeight: true;
@@ -27,8 +33,18 @@ Button {
     font.pointSize: 20
     focusPolicy: "NoFocus"
 
-    palette {
-        button: "#F4F4F4"
+    implicitWidth:  font.pixelSize * 3
+    implicitHeight: font.pixelSize * 2
+
+    palette {        
+        buttonText: "#FFF"
+        button: bgcolor
     }
 
+    background: Loader {
+            source: effectsEnabled ? "CustomButtonBackgroundEffect.qml"
+                                   : "CustomButtonBackground.qml"
+    }
+
+    onClicked: buttonClicked()
 }

@@ -4,5 +4,7 @@
         <file>res/components/CustomButton.qml</file>
         <file>res/components/CustomDigitButton.qml</file>
         <file>res/windowfunctions.js</file>
+        <file>res/components/CustomButtonBackground.qml</file>
+        <file>res/components/CustomButtonBackgroundEffect.qml</file>
     </qresource>
 </RCC>
