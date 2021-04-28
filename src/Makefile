@@ -5,18 +5,18 @@
 all: run
 
 #packs the project to be turned in
-pack: clean doc prepack
+pack: clean install doc prepack
 	cd ../.. && zip -r xvesel92_xruzaa00_xduric05.zip xvesel92_xruzaa00_xduric05
 
 prepack: 
 	mkdir -p ../../xvesel92_xruzaa00_xduric05/doc
 	cp -a ../doc/. ../../xvesel92_xruzaa00_xduric05/doc/
 	mkdir ../../xvesel92_xruzaa00_xduric05/install
-#TODO cp installer not finished
+	cp -a ../install/. ../../xvesel92_xruzaa00_xduric05/install/
 	mkdir ../../xvesel92_xruzaa00_xduric05/repo
-	cp -a ../../IVS-Project/. ../../xvesel92_xruzaa00_xduric05/repo/
+	cp -a ../. ../../xvesel92_xruzaa00_xduric05/repo/
 	rm -rf ../../xvesel92_xruzaa00_xduric05/repo/doc
-#TODO rm installer file from repo
+	rm -rf ../../xvesel92_xruzaa00_xduric05/repo/install
 
 #generates documentation
 doc:
@@ -25,7 +25,7 @@ doc:
 
 #deletes files that should not be turned in 
 clean: 
-	rm -rf __pycache__/ ../doc/ ../../xvesel92_xruzaa00_xduric05/ .pytest_cache/
+	rm -rf __pycache__/ ../doc/ ../../xvesel92_xruzaa00_xduric05/ .pytest_cache/ ../install/usr
 
 test:
 	pytest
@@ -34,7 +34,7 @@ profile:
 #TODO
 
 install:
-#TODO 
+	bash installing_script.sh
 
 run: 
 	pyrcc5 resources.qrc -o resources.py

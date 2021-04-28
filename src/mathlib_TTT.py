@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import re
+
 ##
 # @package TTTcalc
 # MathlibTTT is a mathematical library for our calculator.
@@ -15,6 +17,8 @@
 ##
 # @brief Class for MathlibTTT
 #
+
+
 class MathlibTTT:
 
     ##
@@ -99,8 +103,6 @@ class MathlibTTT:
 
     @staticmethod
     def pow(a, b):
-        if type(b) != int:
-            raise ValueError('Exponent needs to be an integer')
         if not b:
             return 1
         if b < 0:
@@ -133,7 +135,175 @@ class MathlibTTT:
     @staticmethod
     def ln(a):
         if a <= 0:
-            # print("Error - ln value has to be more than 0!")
             raise ValueError('Value of ln function needs to be greater than 0')
         n = 100000000.0
         return round(n * ((a ** (1/n)) - 1), 13)
+
+    ##
+    # Method parses math expresions from string
+    #
+    # @param x string from which method parses math expresions
+    # @exception Ma ERROR if the x parameter  is less or equal to zero
+    # @return result of math expresion
+
+    @staticmethod
+    def parse(x):
+        while x.find("!") > -1:
+            start = x.find("!")
+            a = [float(a)
+                 for a in re.findall(r'-?\d+\.?\d*', x[start:])]
+            if bool(a):
+                a = a[0]
+                if round(a) == a:
+                    x = x.replace(str(a), str(int(a)), 1)
+                    a = int(a)
+                    x = x.replace("!"+str(a),
+                                  str(MathlibTTT.fac(a)), 1)
+                else:
+                    raise ValueError(
+                        'Factorials must be positive integers or the result is too great')
+            else:
+                raise ValueError('Incorect use of pow()')
+
+        while x.find("root(") > -1:
+            startpar = x.find("root(")
+            endpar = x[startpar:].find(")")
+            s = [float(s)
+                 for s in re.findall(r'-?\d+\.?\d*', x[startpar:startpar+endpar])]
+            if 2 == len(s):
+                x = x.replace(x[startpar:startpar+endpar+1],
+                              str(MathlibTTT.root(s[0], s[1])), 1)
+            else:
+                raise ValueError('Incorect use of root()')
+
+        while x.find("ln(") > -1:
+            startpar = x.find("ln(")
+            endpar = x[startpar:].find(")")
+            s = [float(s)
+                 for s in re.findall(r'-?\d+\.?\d*', x[startpar:startpar+endpar])]
+            if 1 == len(s):
+                x = x.replace(x[startpar:startpar+endpar+1],
+                              str(MathlibTTT.ln(s[0])), 1)
+            else:
+                raise ValueError('Incorect use of ln()')
+
+        while x.find("^") > -1:
+            splitx = x.split("^", 1)
+            a = [float(a)
+                 for a in re.findall(r'-?\d+\.?\d*', splitx[0])]
+            b = [float(b)
+                 for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
+
+            if bool(a) and bool(b):
+                a = a[len(a)-1]
+                b = b[0]
+                if round(a) == a:
+                    x = x.replace(str(a), str(int(a)))
+                    a = int(a)
+                if round(b) == b:
+                    x = x.replace(str(b), str(int(b)))
+                    b = int(b)
+                x = x.replace(str(a)+"^"+str(b),
+                              str(MathlibTTT.pow(a, b)), 1)
+            else:
+                raise ValueError('Incorect use of pow()')
+
+        while x.find("(") > -1:
+            startpar = x.find("(")
+            endpar = x.find(")")
+            if endpar < 0:
+                raise ValueError('Incorect use of parentheses')
+            x = x.replace(x[startpar:endpar+1],
+                          str(MathlibTTT.parse(x[startpar+1:endpar])), 1)
+
+        if not x.find(")") == -1:
+            raise ValueError('Incorect use of parentheses')
+
+        while x.find("*") > -1:
+            splitx = x.split("*", 1)
+            a = [float(a)
+                 for a in re.findall(r'-?\d+\.?\d*', splitx[0])]
+            b = [float(b)
+                 for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
+
+            if bool(a) and bool(b):
+                a = abs(a[len(a)-1])
+                b = b[0]
+                if round(a) == a:
+                    x = x.replace(str(a), str(int(a)))
+                    a = int(a)
+                if round(b) == b:
+                    x = x.replace(str(b), str(int(b)))
+                    b = int(b)
+                x = x.replace(str(a)+"*"+str(b),
+                              str(MathlibTTT.mul(a, b)), 1)
+            else:
+                raise ValueError('Incorect use of multiplication')
+
+        while x.find("/") > -1:
+            splitx = x.split("/", 1)
+            a = [float(a)
+                 for a in re.findall(r'-?\d+\.?\d*', splitx[0])]
+            b = [float(b)
+                 for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
+            if bool(a) and bool(b):
+                a = abs(a[len(a)-1])
+                b = b[0]
+                if round(a) == a:
+                    x = x.replace(str(a), str(int(a)))
+                    a = int(a)
+                if round(b) == b:
+                    x = x.replace(str(b), str(int(b)))
+                    b = int(b)
+                x = x.replace(str(a)+"/"+str(b),
+                              str(MathlibTTT.div(a, b)), 1)
+            else:
+                raise ValueError('Incorect use of division')
+
+        while x.find("+") > -1 or x.find("-") > -1:
+            if x.find("-") == 0 and (x.find("+") > -1 or x[1:].find("-") > -1):
+                min_index = x[1:].find("-")
+            else:
+                min_index = x.find("-")
+            if (x.find("+") < min_index and x.find("+") > -1) or (x.find("+") > -1 and min_index == -1):
+                splitx = x.split("+", 1)
+                a = [float(a)
+                     for a in re.findall(r'-?\d+\.?\d*', splitx[0])]
+                b = [float(b)
+                     for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
+                if bool(a) and bool(b):
+                    a = a[len(a)-1]
+                    b = b[0]
+                    if round(a) == a:
+                        x = x.replace(str(a), str(int(a)))
+                        a = int(a)
+                    if round(b) == b:
+                        x = x.replace(str(b), str(int(b)))
+                        b = int(b)
+                    x = x.replace(str(a)+"+"+str(b),
+                                  str(MathlibTTT.add(a, b)), 1)
+                else:
+                    raise ValueError('Incorect use of adding')
+            elif min_index < x.find("+") or (min_index > -1 and x.find("+") == -1):
+                splitx = x.split("-", 1)
+                a = [float(a)
+                     for a in re.findall(r'-?\d+\.?\d*', splitx[0])]
+                b = [float(b)
+                     for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
+                if not bool(a) and len(b) == 1:
+                    return round(float(x), 2)
+                if bool(b):
+                    a = a[len(a)-1]
+                    b = b[0]
+                    if round(a) == a:
+                        x = x.replace(str(a), str(int(a)))
+                        a = int(a)
+                    if round(b) == b:
+                        x = x.replace(str(b), str(int(b)))
+                        b = int(b)
+                    x = x.replace(str(a)+"-"+str(b),
+                                  str(MathlibTTT.sub(a, b)), 1)
+                else:
+                    raise ValueError('Incorect use of subtraction')
+
+        return round(float(x), 3)
