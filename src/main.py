@@ -48,12 +48,15 @@ class Brain(QObject):
         self._textUpper = ""
         self.digits = "0123456789"
         self.keys = "+-/*"
+        self._upperColor = "#FFF"
+        self.mathError = False
 
     ##
     # Setter for textLower, called from QML
     # @param text  string
     def setTextLower(self, text):
         self._textLower = text
+
 
     @pyqtProperty(str, notify=signal, fset=setTextLower)
     ##
@@ -74,12 +77,31 @@ class Brain(QObject):
         return self._textUpper
 
 
+    @pyqtProperty(str, notify=signal)
+    ##
+    # Getter for upperColor, called from QML
+    def upperColor(self):
+        return self._upperColor
+
+
+    def updateGUI(self):
+        if self.mathError:
+            self._upperColor = "#FFF"
+            self._textUpper = ""
+            self.mathError = False
+        self.signal.emit()  # Update GUI
+
+
+    def updateGUIonError(self):
+        self._upperColor = "#FF0000"
+        self.mathError = True
+        self.signal.emit()  # Update GUI
+
     def append(self, str):
         if self._textLower == "0":
             self._textLower = ""  # Remove leading 0
         self._textLower += str
-        self.signal.emit()  # Update GUI
-
+        self.updateGUI()
 
     ##
     # @param str  string
@@ -96,11 +118,35 @@ class Brain(QObject):
         self._textLower = self._textLower[:-1]  # Removes last char
         if self._textLower == "":
             self._textLower = "0"
-        self.signal.emit()  # Update GUI
+        self.updateGUI()
+
+
+    def onKeyC(self):
+        self._textLower = ""
+        if self._textLower == "":
+            self._textLower = "0"
+        self.updateGUI()
+
+
+    def onKeyCE(self):
+        self._textUpper = ""
+        self.onKeyC()
+
+    def onKeyEnter(self):
+        try:
+            result = MathlibTTT.parse(self._textLower.replace(" ", ""))
+        except ValueError as error:
+            self._textUpper = str(error)
+            self.updateGUIonError()
+            return
+        result = str(result)
+        qDebug(result)
+        self._textUpper = self._textLower + "="
+        self._textLower = result
+        self.updateGUI()
 
 
     def onKeyEvent(self, key, key_str):
-        qDebug('key pressed ' + key_str + ', ' + self._textLower)
         # Filter for textInput item
         if key in [Qt.Key_Left, Qt.Key_Right, Qt.Key_Delete]:
             return False
@@ -108,20 +154,13 @@ class Brain(QObject):
         if key == Qt.Key_Backspace:
             self.onKeyBackspace()
         elif key == Qt.Key_Return:
-            qDebug('Enter pressed, ' + self._textLower)
-            result = MathlibTTT.parse(self._textLower.replace(" ", ""))
-            result = str(result)
-            qDebug(result)
-            self._textUpper = self._textLower
-            self._textLower = result
-            self.signal.emit()  # Update GUI
+            self.onKeyEnter()
         else:
-            # self.processKey(str)
+            self.updateGUI()
             return False
         return True
 
     def buttonClicked(self, key):  # GUI button events
-        qDebug("Button click: " + key)
         self.processKey(key)
 
     ##
@@ -138,15 +177,14 @@ class Brain(QObject):
 #    @param bigbrain  reference to logic object
 #
 def initQuickItem(obj, window, bigbrain):
-
     name = obj.objectName()
     if name.startswith('PButton'):
         regex = re.match("[^[]*{([^]]*)}", name)  # Get substring in { }
         if not regex:
             return
         id = regex.groups()[0]
-        if id in "0123456789,+-/*=":
-            obj.setProperty("text", id)            
+        if id in "0123456789,+-/*":
+            obj.setProperty("text", id)
             obj.buttonClicked.connect(lambda id=id: bigbrain.buttonClicked(id))
         elif id == "Backspace":
             obj.buttonClicked.connect(lambda: bigbrain.onKeyBackspace())
@@ -156,6 +194,14 @@ def initQuickItem(obj, window, bigbrain):
             obj.buttonClicked.connect(lambda: bigbrain.buttonClicked("("))
         elif id == "parentRight":
             obj.buttonClicked.connect(lambda: bigbrain.buttonClicked(")"))
+        elif id == "C":
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyC())
+        elif id == "CE":
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyCE())
+        elif id == "=":
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyEnter())
+
+
 ##
 #    @brief App initialization
 #    @param window  reference to GUI window

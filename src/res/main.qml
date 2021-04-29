@@ -83,51 +83,60 @@ ApplicationWindow {
         Layout.fillWidth:  true;
         Layout.fillHeight: true;
 
+
         columns: 1
 
-        Text {
-            id: textInputUpper
-            objectName: "textInputUpper"
+        ColumnLayout {
 
-            color: "#FFF"
-            text: bigbrain.textUpper
-            font.pointSize: 18
+            RowLayout {
+                Layout.alignment: Qt.AlignRight
+                Text {
+                    id: textInputUpper
+                    objectName: "textInputUpper"
+                    wrapMode: Text.WordWrap
 
-            horizontalAlignment: TextInput.AlignRight
-            verticalAlignment:   TextInput.AlignVCenter
+                    color: bigbrain.upperColor
+                    text: bigbrain.textUpper
+                    font.pointSize: 18
 
-            Layout.fillWidth:  true;
-            Layout.fillHeight: true;
-        }
+                    horizontalAlignment: TextInput.AlignRight
+                    verticalAlignment:   TextInput.AlignVCenter
 
-        TextMetrics {
-             id: metricsLower
-             text: bigbrain.textLower
-        }
-
-        TextInput {
-            id: textInput
-            objectName: "textInput"
-
-
-            color: "#FFF"
-            text: bigbrain.textLower
-            font: metricsLower.font
-
-            onTextChanged: {
-                Logic.onAdjustSize()
-                bigbrain.textLower = text
+                    Layout.fillWidth:  true;
+                    Layout.fillHeight: true;
+                }
             }
 
-            focus: true
+            TextMetrics {
+                 id: metricsLower
+                 text: bigbrain.textLower
+            }
 
-            horizontalAlignment: TextInput.AlignRight
-            verticalAlignment:   TextInput.AlignVCenter
+            TextInput {
+                id: textInput
+                objectName: "textInput"
 
-            Layout.fillWidth:  true;
-            Layout.fillHeight: true;
+                color: "#FFF"
+                text: bigbrain.textLower
+                font: metricsLower.font
 
-            selectionColor: "#646464"
+                maximumLength: 20
+
+                onTextChanged: {
+                    Logic.onAdjustSize()
+                    bigbrain.textLower = text
+                }
+
+                focus: true
+
+                horizontalAlignment: TextInput.AlignRight
+                verticalAlignment:   TextInput.AlignVCenter
+
+                Layout.fillWidth:  true;
+                Layout.fillHeight: true;
+
+                selectionColor: "#646464"
+            }
         }
 
         GridLayout {
@@ -171,6 +180,7 @@ ApplicationWindow {
             CustomButton      { objectName: "PButton{,}" }
             CustomButton {
                 objectName: "PButton{=}";
+                text: "="
                 bgcolor: "#189100";
                 tooltipText: "Calculates expression"
                 tooltipEnabled: true

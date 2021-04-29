@@ -9,5 +9,8 @@ Rectangle {
         onContainsMouseChanged: {
             mouseHovered = containsMouse && tooltipEnabled
         }
+        onClicked: {
+            button.buttonClicked()
+        }
     }
 }

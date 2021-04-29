@@ -1,7 +1,7 @@
 
 function onAdjustSize() {
 
-    let maxSize = root.height / 5
+    let maxSize = root.height / 4
 
     let l = 12 * root.width / root.height
     let s = Math.max(textInput.text.length, l)
@@ -13,4 +13,9 @@ function onAdjustSize() {
 
     textInput.Layout.minimumHeight = maxSize
     textInput.Layout.maximumHeight = maxSize
+
+
+    textInputUpper.Layout.minimumHeight = maxSize / 2
+    textInputUpper.Layout.maximumHeight = maxSize / 2
+    textInputUpper.Layout.maximumWidth = textInput.width * 0.75
 }
