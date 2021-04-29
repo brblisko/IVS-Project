@@ -25,7 +25,6 @@ Button {
     id: button
     signal buttonClicked()
     property bool mouseHovered: false
-    property bool tooltipEnabled: false
     property string tooltipText: ""
 
     property var bgcolor: "#1D1D1D"
@@ -51,7 +50,7 @@ Button {
     }
 
     ToolTip {
-           visible: mouseHovered
+           visible: mouseHovered && tooltipText != ""
            contentItem: Text{
                color: "#FFF"
                text: tooltipText

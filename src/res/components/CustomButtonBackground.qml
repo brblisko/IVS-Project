@@ -7,7 +7,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onContainsMouseChanged: {
-            mouseHovered = containsMouse && tooltipEnabled
+            mouseHovered = containsMouse
         }
         onClicked: {
             button.buttonClicked()

@@ -39,7 +39,7 @@ Rectangle {
                 rect.mousey = mouseY - height / 2;
             }
             onContainsMouseChanged: {
-                mouseHovered = containsMouse && tooltipEnabled
+                mouseHovered = containsMouse
             }
             onClicked: {
                 button.buttonClicked()

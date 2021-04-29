@@ -110,8 +110,8 @@ class Brain(QObject):
         self.append(str)
 
 
-    def onKeyRoot(self):
-        self.append("root(")
+    def onKeyPrefix(self, prefix):
+        self.append(prefix)
 
 
     def onKeyBackspace(self):
@@ -189,7 +189,13 @@ def initQuickItem(obj, window, bigbrain):
         elif id == "Backspace":
             obj.buttonClicked.connect(lambda: bigbrain.onKeyBackspace())
         elif id == "root":
-            obj.buttonClicked.connect(lambda: bigbrain.onKeyRoot())
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("root("))
+        elif id == "pow":
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("pow("))
+        elif id == "ln":
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("ln("))
+        elif id == "factorial":
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("!"))
         elif id == "parentLeft":
             obj.buttonClicked.connect(lambda: bigbrain.buttonClicked("("))
         elif id == "parentRight":

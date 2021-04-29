@@ -31,7 +31,7 @@ ApplicationWindow {
     id: root
     visible: true
 
-    title: "YAC Calculator"
+    title: "TTT-Calc"
     color: "#333"
 
     onWidthChanged: Logic.onAdjustSize()
@@ -150,40 +150,67 @@ ApplicationWindow {
 
             columns: 5
             //row 0
-            CustomButton { objectName: "PButton{ln}"; text: "ln"; }
+            CustomButton {
+                objectName: "PButton{ln}"
+                text: "ln"
+                tooltipText: "Calculates ln of x\nSyntax: ln(x)"
+            }
             CustomButton { objectName: "PButton{CE}"; text: "CE" }
             CustomButton { objectName: "PButton{C}"; text: "C"  }
             CustomButton { objectName: "PButton{Backspace}"; text: "DEL" }
-            CustomButton { objectName: "PButton{/}"  }
+            CustomButton {
+                objectName: "PButton{/}"
+                tooltipText: "Division"
+            }
             //row 1
-            CustomButton      { objectName: "PButton{root}"; text: "√"; }
+            CustomButton      {
+                objectName: "PButton{root}"
+                text: "√"
+                tooltipText: "Calculates n-th root of x\nSyntax: root(x, n)"
+            }
             CustomDigitButton { objectName: "PButton{7}" }
             CustomDigitButton { objectName: "PButton{8}" }
             CustomDigitButton { objectName: "PButton{9}" }
-            CustomButton      { objectName: "PButton{*}" }
+            CustomButton      {
+                objectName: "PButton{*}"
+                tooltipText: "Multiplication"
+            }
             //row 2
-            CustomButton      { objectName: "PButton{pow}"; text: "x^y"; }
+            CustomButton      {
+                objectName: "PButton{pow}"
+                text: "x^y"
+                tooltipText: "Calculates x to the power of y\nSyntax: pow(x, y)"
+            }
             CustomDigitButton { objectName: "PButton{4}" }
             CustomDigitButton { objectName: "PButton{5}" }
             CustomDigitButton { objectName: "PButton{6}" }
-            CustomButton      { objectName: "PButton{-}" }
+            CustomButton      {
+                objectName: "PButton{-}"
+                tooltipText: "Substraction"
+            }
             //row 3
-            CustomButton      { objectName: "PButton{factorial}"; text: "n!"; }
+            CustomButton      {
+                objectName: "PButton{factorial}"
+                text: "n!"
+                tooltipText: "Calculates factorial"
+            }
             CustomDigitButton { objectName: "PButton{1}" }
             CustomDigitButton { objectName: "PButton{2}" }
             CustomDigitButton { objectName: "PButton{3}" }
-            CustomButton      { objectName: "PButton{+}" }
+            CustomButton      {
+                objectName: "PButton{+}"
+                tooltipText: "Addition"
+            }
             //row 4
             CustomButton      { objectName: "PButton{parentLeft}"; text: "("; }
             CustomButton      { objectName: "PButton{parentRight}"; text: ")"; }
             CustomDigitButton { objectName: "PButton{0}" }
             CustomButton      { objectName: "PButton{,}" }
             CustomButton {
-                objectName: "PButton{=}";
+                objectName: "PButton{=}"
                 text: "="
-                bgcolor: "#189100";
+                bgcolor: "#189100"
                 tooltipText: "Calculates expression"
-                tooltipEnabled: true
             }
         }
     }
