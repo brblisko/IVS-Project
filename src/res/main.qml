@@ -37,43 +37,80 @@ ApplicationWindow {
     onHeightChanged: Logic.onAdjustSize()
 
     minimumWidth:  mainLayout.implicitWidth
-    minimumHeight: mainLayout.implicitHeight + menuBar.height
+    minimumHeight: mainLayout.implicitHeight
 
-    menuBar: MenuBar {
-           Menu {
-               title: "Settings"
 
-               MenuItem{
-                     contentItem: Text{
-                        text: "Toggle effects"
-                        color: "#FFF"
-                     }
-                     onTriggered: {
-                         effectsEnabled = !effectsEnabled
-                     }
-                     background: Rectangle {
-                         color: "#3D3D3D"
-                     }
+    Rectangle {
+        color: "#282828"
+        width: root.width
+        height: settingButton.height
+        RowLayout {
+            Button {
+                id: settingButton
+                palette {
+                    buttonText: "#FFF"
+                    button: "#00000000"
                 }
+                text: "Settings"
+                onClicked: drawer.open()
+                font.pointSize: 20
+            }
+        }
+    }
 
-               MenuItem{
-                    contentItem: Text{
-                      text: "Quit"
-                      color: "#FFF"
-                    }
-                    onTriggered: {
-                        Qt.quit()
-                    }
-                    background: Rectangle {
-                        color: "#3D3D3D"
-                    }
+    Drawer {
+        id: drawer
+        width: root.width / 2.5
+        height: root.height
+        modal: true
+        clip: true
+
+        edge: Qt.LeftEdge
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
+        background: Rectangle{
+            anchors.fill: parent
+            color: "#1D1D1D"
+            opacity: 0.7
+        }
+
+        ColumnLayout {
+            anchors.fill: parent
+
+            Item {
+                Layout.fillHeight: true
+            }
+
+            Button {
+                text: "Toggle effects"
+                font.pointSize: 16
+                Layout.minimumWidth: drawer.width
+                Layout.alignment: Qt.AlignBottom
+                palette {
+                    buttonText: "#FFF"
+                    button: "#00000000"
                 }
+                onClicked: effectsEnabled = !effectsEnabled
+            }
 
-           }
-           background: Rectangle {
-               color: "#3D3D3D"
-           }
-       }
+            Button {
+                text: "Quit"
+                font.pointSize: 16
+                Layout.minimumWidth: drawer.width
+                Layout.alignment: Qt.AlignBottom
+                width: drawer.width
+                palette {
+                    buttonText: "#FFF"
+                    button: "#00000000"
+                }
+                onClicked: Qt.quit()
+            }
+
+            Item {
+                height: 15
+            }
+        }
+    }
 
     GridLayout {
         id: mainLayout
