@@ -229,7 +229,7 @@ def initQuickItem(obj, window, bigbrain):
         elif id == "root":
             obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("root("))
         elif id == "pow":
-            obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("pow("))
+            obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("^"))
         elif id == "ln":
             obj.buttonClicked.connect(lambda: bigbrain.onKeyPrefix("ln("))
         elif id == "factorial":
