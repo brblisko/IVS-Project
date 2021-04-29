@@ -39,25 +39,6 @@ ApplicationWindow {
     minimumWidth:  mainLayout.implicitWidth
     minimumHeight: mainLayout.implicitHeight
 
-
-    Rectangle {
-        color: "#282828"
-        width: root.width
-        height: settingButton.height
-        RowLayout {
-            Button {
-                id: settingButton
-                palette {
-                    buttonText: "#FFF"
-                    button: "#00000000"
-                }
-                text: "Settings"
-                onClicked: drawer.open()
-                font.pointSize: 20
-            }
-        }
-    }
-
     Drawer {
         id: drawer
         width: root.width / 2.5
@@ -119,10 +100,27 @@ ApplicationWindow {
         Layout.fillWidth:  true;
         Layout.fillHeight: true;
 
-
         columns: 1
 
         ColumnLayout {
+
+            Rectangle {
+                color: "#282828"
+                Layout.fillWidth: true
+                height: settingButton.height
+                RowLayout {
+                    Button {
+                        id: settingButton
+                        palette {
+                            buttonText: "#FFF"
+                            button: "#00000000"
+                        }
+                        text: "Settings"
+                        onClicked: drawer.open()
+                        font.pointSize: 20
+                    }
+                }
+            }
 
             RowLayout {
                 Layout.alignment: Qt.AlignRight
