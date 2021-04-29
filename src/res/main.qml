@@ -147,13 +147,13 @@ ApplicationWindow {
             CustomButton { objectName: "PButton{Backspace}"; text: "DEL" }
             CustomButton { objectName: "PButton{/}"  }
             //row 1
-            CustomButton      { objectName: "PButton{root}"; text: "root"; }
+            CustomButton      { objectName: "PButton{root}"; text: "√"; }
             CustomDigitButton { objectName: "PButton{7}" }
             CustomDigitButton { objectName: "PButton{8}" }
             CustomDigitButton { objectName: "PButton{9}" }
             CustomButton      { objectName: "PButton{*}" }
             //row 2
-            CustomButton      { objectName: "PButton{pow}"; text: "pow"; }
+            CustomButton      { objectName: "PButton{pow}"; text: "x^y"; }
             CustomDigitButton { objectName: "PButton{4}" }
             CustomDigitButton { objectName: "PButton{5}" }
             CustomDigitButton { objectName: "PButton{6}" }
