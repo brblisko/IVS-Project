@@ -152,14 +152,14 @@ class MathlibTTT:
         n = 100000000.0
         return round(n * ((a ** (1/n)) - 1), 13)
 
-    #(\-?|\+?)(\d+\.?\d+|\d*\.?\d+)
+    # (\-?|\+?)(\d+\.?\d+|\d*\.?\d+)
 
     ##
     # Method parses math expresions from string
     #
     # @param x string from which method parses math expresions
     # @exception Error when there is incorrect math syntax
-    # @return result of math expresion    
+    # @return result of math expresion
 
     @staticmethod
     def parse(x):
@@ -175,7 +175,7 @@ class MathlibTTT:
                 x = x.replace(str(a)+"!",
                               str(MathlibTTT.fac(a)), 1)
             else:
-                raise ValueError('Incorect use of pow()')
+                raise ValueError('Incorect use of fac()')
 
         while x.find("root(") > -1:
             startpar = x.find("root(")
