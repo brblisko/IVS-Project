@@ -1,18 +1,33 @@
-Prostredi
----------
+# ttt-calc
 
-Ubuntu 64bit
+Simple calculator written in python, qtquick and pyqt5
 
-Autori
-------
 
-Nazev tymu: time to throw PogChamp
-- xvesel92 Boris Vesely 
-- xruzaa00 Adam Ruza 
-- xduric05 Peter Durica
+## Environment
 
-Licence
--------
+Ubuntu 64bit 20.04
+
+### Prerequisites
+
+```
+python3
+python3-pyqt5.qtquick
+qml-module-qtquick-controls
+pyqt5-dev-tools
+qtquickcontrols2-5-dev
+qml-module-qtquick2
+qml-module-qtquick-layouts
+qml-module-qtquick-controls2
+```
+
+## Authors
+
+Team: time to throw PogChamp
+* **xvesel92** [Boris Vesely](https://github.com/brblisko) 
+* **xruzaa00** [Adam Ruza](https://github.com/guritchi)
+* **xduric05** [Peter Durica](https://github.com/futcrab)
+
+## Licence
 
 Copyright (C) 2021 
 
