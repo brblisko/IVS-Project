@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=ttt-calc
+Comment=
+Exec=ttt-calc
+Icon=/usr/share/icons/ttt-calc/icons8-ttt-calc.png
+Terminal=false
+Type=Application
+StartupNotify=true
