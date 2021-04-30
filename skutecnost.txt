@@ -1,0 +1,11 @@
+TTT team - xvesel92, xruzaa00, xduric05
+
+Rozdiel medzi skutocnostou a planom
+
+1. Vacsina deadlinov urcenych v plane sa nedorzala (ci uz kvoli inym projektom alebo pisomkam)
+
+2. Test driven development sa nie uplne dodrzal su funkcie ktore vznikli skor ako testy na ne, ale parser sa uz robil ako TDD
+
+3. Nedodranie rozdelenia uloh
+
+4. Nepouzitie vsetkych komunikacnych kanalov, vobec sme nevyuzili Microsoft team a emailovu komunikaciu. Discord nam vystacil na vsetko. Nasa komunikacia nebola na oficialnej urovni kedze sa pozname uz od strednej skoly.
