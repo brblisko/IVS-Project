@@ -170,9 +170,11 @@ class Brain(QObject):
             self._textUpper = str(error)
             self.updateGUIonError()
             return
-        result = str(result)
+        if result % 1 == 0:
+            self._textLower = str(int(result))
+        else:
+            self._textLower = str(result)
         self._textUpper = self._textLower + "="
-        self._textLower = result
         self.updateGUI()
 
     ##
@@ -221,7 +223,7 @@ def initQuickItem(obj, window, bigbrain):
         if not regex:
             return
         id = regex.groups()[0]
-        if id in "0123456789,+-/*":
+        if id in "0123456789,.+-/*":
             obj.setProperty("text", id)
             obj.buttonClicked.connect(lambda id=id: bigbrain.buttonClicked(id))
         elif id == "Backspace":

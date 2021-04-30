@@ -239,7 +239,7 @@ ApplicationWindow {
             CustomButton      { objectName: "PButton{parentLeft}"; text: "("; }
             CustomButton      { objectName: "PButton{parentRight}"; text: ")"; }
             CustomDigitButton { objectName: "PButton{0}" }
-            CustomButton      { objectName: "PButton{,}" }
+            CustomButton      { objectName: "PButton{.}" }
             CustomButton {
                 objectName: "PButton{=}"
                 text: "="
