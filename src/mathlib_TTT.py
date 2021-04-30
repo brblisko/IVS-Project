@@ -319,7 +319,7 @@ class MathlibTTT:
                 b = [float(b)
                      for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
                 if not bool(a) and len(b) == 1:
-                    return round(float(x), 2)
+                    return round(float(x), 6)
                 if bool(b):
                     a = a[len(a)-1]
                     b = b[0]
@@ -339,6 +339,6 @@ class MathlibTTT:
                     raise ValueError('Incorect use of subtraction')
 
         if float(x) or float(x) == 0:
-            return round(float(x), 3)
+            return round(float(x), 6)
         else:
             raise ValueError('Wrong syntax of math function:' + x)
