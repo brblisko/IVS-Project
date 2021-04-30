@@ -108,6 +108,8 @@ def test_parse():
     assert MathlibTTT.parse(x) == 41
     x = "(6+6)/(5+5)"
     assert MathlibTTT.parse(x) == 1.2
+    x = "-6*-6*-6"
+    assert MathlibTTT.parse(x) == -216
     x = "rt"
     with pytest.raises(ValueError):
         MathlibTTT.parse(x)

@@ -319,6 +319,8 @@ class MathlibTTT:
                 b = [float(b)
                      for b in re.findall(r'-?\d+\.?\d*', splitx[1])]
                 if not bool(a) and len(b) == 1:
+                    while x[1:].find("-") > -1:
+                        x = x[1:].replace("-", "", 1)
                     return round(float(x), 6)
                 if bool(b):
                     a = a[len(a)-1]
