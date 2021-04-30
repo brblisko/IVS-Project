@@ -1,0 +1,7 @@
+Z prilozenych grafov sme zistili ze najdlhsi cas vyuzivaju funkcie pow() a add() a to hlavne 
+poctu pocitanych hodnot
+
+Nenasli sme ziadne chyby v kode, ktore by sme chceli upravit ale je mozne ze niektore funkcie 
+mozu byt vykonavane rychlejsie ako su doteraz.
+
+
