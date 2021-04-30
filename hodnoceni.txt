@@ -1,0 +1,3 @@
+xvesel92 100 (makefile, doxyfile, installer, user dokumentacia)
+xruzaa00 100 (GUI, profiling, mockup, prepojenie GUI a kniznice, spracovanie zatvoriek)
+xduric05 100 (testy, kniznica, user dokumentacia)
