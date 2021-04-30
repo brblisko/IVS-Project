@@ -29,7 +29,8 @@ doc:
 
 #deletes files that should not be turned in 
 clean: 
-	rm -rf __pycache__/ ../doc/ ../../xvesel92_xruzaa00_xduric05/ .pytest_cache/ ../install/usr
+	rm -rf __pycache__/ ../doc/ ../../xvesel92_xruzaa00_xduric05/ .pytest_cache/ ../install/usr/local ../install/usr/share/ttt-calc \
+		../install/usr/share/icons	
 
 test:
 	pytest
