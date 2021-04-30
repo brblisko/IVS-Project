@@ -154,7 +154,7 @@ ApplicationWindow {
                 text: bigbrain.textLower
                 font: metricsLower.font
 
-                maximumLength: 20
+                maximumLength: 50
 
                 onTextChanged: {
                     Logic.onAdjustSize()
@@ -213,7 +213,7 @@ ApplicationWindow {
             CustomButton      {
                 objectName: "PButton{pow}"
                 text: "x^y"
-                tooltipText: "Calculates x to the power of y\nSyntax: pow(x, y)"
+                tooltipText: "Calculates x to the power of y\nSyntax: x^y"
             }
             CustomDigitButton { objectName: "PButton{4}" }
             CustomDigitButton { objectName: "PButton{5}" }
