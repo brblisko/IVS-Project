@@ -163,6 +163,47 @@ class MathlibTTT:
 
     @staticmethod
     def parse(x):
+
+        while True:
+            r = re.finditer(r"\([^()]*\)", x)
+            for m in r:
+                start = int(m.start()) + 1
+                end = int(m.end()) - 1
+                ns = x[start:][:(end - start)]
+                if start >= 3:
+                    p = x[start-3:][:start-1]
+                    if p == "ln":
+                        s = MathlibTTT.ln(float(ns))
+                        x = x[:start-3] + str(s) + x[end+1:]
+                        break
+                if start >= 5:
+                    p = x[start-5:start-1]
+                    if p == "root":
+                        if ns.find(",") != -1:
+                            xsplit = ns.split(",", 2)
+                            s = MathlibTTT.root(float(xsplit[0]), float(xsplit[1]))
+                            x = x[:start-5] + str(s) + x[end+1:]
+                        break
+                s = str(MathlibTTT.parse(ns))
+                x = x[:start-1] + s + x[end+1:]
+                break
+            break
+
+        while x.find("!") > -1:
+            splitx = x.split("!", 1)
+            a = [float(a)
+                 for a in re.findall(r'-?\d+\.?\d*', splitx[0])]
+            if bool(a):
+                a = a[len(a)-1]
+                if round(a) == a:
+                    x = x.replace(str(a), str(int(a)), 1)
+                    a = int(a)
+                x = x.replace(str(a)+"!",
+                              str(MathlibTTT.fac(a)), 1)
+            else:
+                raise ValueError('Incorect use of fac()')
+
+
         while x.find("!") > -1:
             splitx = x.split("!", 1)
             a = [float(a)
